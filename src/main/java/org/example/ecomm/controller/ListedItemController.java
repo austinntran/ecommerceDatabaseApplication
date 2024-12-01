@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -93,9 +94,24 @@ public class ListedItemController {
             _item.setSellerUsername(item.getSellerUsername());
             _item.setDescription(item.getDescription());
             _item.setQuantity(item.getQuantity());
+            if (item.getBuyerUsername() != null) {
+                _item.setBuyerUsername(item.getBuyerUsername());
+            }
             _item.setName(item.getName());
             _item.setPrice(item.getPrice());
             _item.setConditionId(item.getConditionId());
+            return new ResponseEntity<>(listedItemRepository.save(_item), HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+    @PutMapping("/items/{itemId}/buy")
+    public ResponseEntity<ListedItem> updateItem(@PathVariable("itemId") Long itemId, @RequestBody User user) {
+        Optional<ListedItem> itemData = listedItemRepository.findById(itemId);
+        if (itemData.isPresent()) {
+            ListedItem _item = itemData.get();
+            _item.setBuyerUsername(user.getUsername());
+            _item.setPurchaseDate(new Date(System.currentTimeMillis()));
             return new ResponseEntity<>(listedItemRepository.save(_item), HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
