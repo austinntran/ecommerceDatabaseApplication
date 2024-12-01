@@ -10,10 +10,5 @@ import java.util.List;
 
 
 public interface WishlistRepository extends JpaRepository<Wishlist, Long> {
-    List<Wishlist> findByIdContaining(long wishlist_id);
-    @Procedure(name = "AddWishlist")
-    void AddWishlist(@Param("@wishlist_id") long wishlist_id,
-                 @Param("@user") User user
-    );
 
 }
