@@ -10,8 +10,8 @@ import org.hibernate.annotations.Check;
 public class Car {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "car_id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long carId;
 
     @ManyToOne
@@ -54,7 +54,7 @@ public class Car {
     }
 
     public void setUser(User user) {
-        this.user = this.user;
+        this.user = user;
     }
 
     public String getMake() {

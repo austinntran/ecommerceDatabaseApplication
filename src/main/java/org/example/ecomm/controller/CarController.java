@@ -1,6 +1,7 @@
 package org.example.ecomm.controller;
 
 import org.example.ecomm.model.Car;
+import org.example.ecomm.model.Wishlist;
 import org.example.ecomm.repository.CarRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -60,6 +61,8 @@ public class CarController {
     @PostMapping("/cars")
     public ResponseEntity<Car> createCar(@RequestBody Car newCar) {
         try {
+            System.out.println(newCar.getUser());
+            System.out.println(newCar.getMake());
             Car car = new Car();
             car.setUser(newCar.getUser());
             car.setMake(newCar.getMake());
