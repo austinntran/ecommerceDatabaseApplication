@@ -9,8 +9,8 @@ public class Wishlist {
 
     @Id
     @Column(name = "wishlist_id")
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private int wishlist_id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long wishlist_id;
 
     @ManyToOne
     @JoinColumn(name = "User_username", referencedColumnName = "username")
@@ -18,16 +18,16 @@ public class Wishlist {
 
     public Wishlist(){}
 
-    public Wishlist(int id, User user) {
+    public Wishlist(long id, User user) {
         wishlist_id = id;
         this.user = user;
     }
 
-    public int getWishlist_id() {
+    public long getWishlist_id() {
         return wishlist_id;
     }
 
-    public void setWishlist_id(int wishlist_id) {
+    public void setWishlist_id(long wishlist_id) {
         this.wishlist_id = wishlist_id;
     }
 

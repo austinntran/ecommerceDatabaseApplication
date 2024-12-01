@@ -9,10 +9,10 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 
 
-public interface WishlistRepository extends JpaRepository<Wishlist, Integer> {
-    List<Wishlist> findByIdContaining(int wishlist_id);
+public interface WishlistRepository extends JpaRepository<Wishlist, Long> {
+    List<Wishlist> findByIdContaining(long wishlist_id);
     @Procedure(name = "AddWishlist")
-    void AddWishlist(@Param("@wishlist_id") int wishlist_id,
+    void AddWishlist(@Param("@wishlist_id") long wishlist_id,
                  @Param("@user") User user
     );
 

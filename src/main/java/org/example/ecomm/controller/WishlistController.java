@@ -20,7 +20,7 @@ public class WishlistController {
     @Autowired
     WishlistRepository wishlistRepository;
     @GetMapping("/wishlists")
-    public ResponseEntity<List<Wishlist>> getAllWishlists(@RequestParam(required = false) int id) {
+    public ResponseEntity<List<Wishlist>> getAllWishlists(@RequestParam(required = false) long id) {
         try {
             List<Wishlist> wishlists = new ArrayList<>();
             if (id < 0) wishlistRepository.findAll().forEach(wishlists::add);
@@ -33,7 +33,7 @@ public class WishlistController {
 
     @GetMapping(value = "/wishlists/{wishlist_id}")
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<Wishlist> getWishlistById(@PathVariable(value = "wishlist_id") int id) {
+    public ResponseEntity<Wishlist> getWishlistById(@PathVariable(value = "wishlist_id") long id) {
         Optional<Wishlist> wishlistData = wishlistRepository.findById(id);
         if (wishlistData.isPresent()) {
             return new ResponseEntity<>(wishlistData.get(), HttpStatus.OK);
@@ -66,7 +66,7 @@ public class WishlistController {
     }
 
     @PutMapping("/wishlists/{wishlist_id}")
-    public ResponseEntity<Wishlist> updateWishlist(@PathVariable("wishlist_id") int wishlist_id, @RequestBody Wishlist wishlist) {
+    public ResponseEntity<Wishlist> updateWishlist(@PathVariable("wishlist_id") long wishlist_id, @RequestBody Wishlist wishlist) {
         Optional<Wishlist> wishlistData = wishlistRepository.findById(wishlist_id);
         if (wishlistData.isPresent()) {
             Wishlist _wishlist = wishlistData.get();
