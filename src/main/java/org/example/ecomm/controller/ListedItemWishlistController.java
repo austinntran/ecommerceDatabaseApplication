@@ -56,6 +56,21 @@ public class ListedItemWishlistController {
         return ResponseEntity.ok(filtered);
     }
 
+    // Delete a single item from a given wishlist
+    @DeleteMapping("/listeditemwishlists/{wishlistId}/{listedItemId}")
+    public ResponseEntity<HttpStatus> deleteListedItemFromWishlist(@PathVariable("wishlistId") Long wishlistId, @PathVariable("listedItemId") Long listedItemId) {
+        try {
+            ListedItemWishlistId id = new ListedItemWishlistId(wishlistId, listedItemId);
+            if (!listedItemWishlistRepository.existsById(id)) {
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
+            listedItemWishlistRepository.deleteById(id);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
     @DeleteMapping("/listeditemwishlists")
     public ResponseEntity<HttpStatus> deleteAllWishlists() {
         try {
