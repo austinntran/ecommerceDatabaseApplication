@@ -55,9 +55,11 @@ public class WishlistController {
     @PostMapping("/wishlists")
     public ResponseEntity<Wishlist> createWishlist(@RequestBody Wishlist wishlist) {
         try {
-            wishlistRepository.AddWishlist(wishlist.getWishlist_id(), wishlist.getUser());
-            Optional<Wishlist> _wishlist = wishlistRepository.findById(wishlist.getWishlist_id());
-            return new ResponseEntity<>(_wishlist.get(), HttpStatus.CREATED);
+            Wishlist wishlist1 = new Wishlist();
+            wishlist1.setWishlist_id(wishlist.getWishlist_id());
+            wishlist1.setUser(wishlist.getUser());
+            Wishlist _wishlist = wishlistRepository.save(wishlist1);
+            return new ResponseEntity<>(_wishlist, HttpStatus.CREATED);
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -68,6 +70,7 @@ public class WishlistController {
         Optional<Wishlist> wishlistData = wishlistRepository.findById(wishlist_id);
         if (wishlistData.isPresent()) {
             Wishlist _wishlist = wishlistData.get();
+            _wishlist.setWishlist_id(wishlist.getWishlist_id());
             _wishlist.setUser(wishlist.getUser());
             return new ResponseEntity<>(wishlistRepository.save(_wishlist), HttpStatus.OK);
         } else {
