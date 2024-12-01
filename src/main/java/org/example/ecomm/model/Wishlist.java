@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name="[Wishlist]")
+@Table(name="Wishlist")
 public class Wishlist {
 
     @Id
@@ -13,7 +13,7 @@ public class Wishlist {
     private long wishlist_id;
 
     @ManyToOne
-    @JoinColumn(name = "User_username", referencedColumnName = "username")
+    @JoinColumn(name = "username", referencedColumnName = "username")
     private User user;
 
     public Wishlist(){}

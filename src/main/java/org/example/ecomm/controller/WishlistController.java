@@ -1,6 +1,5 @@
 package org.example.ecomm.controller;
 
-import org.example.ecomm.model.User;
 import org.example.ecomm.model.Wishlist;
 import org.example.ecomm.repository.WishlistRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,11 +19,10 @@ public class WishlistController {
     @Autowired
     WishlistRepository wishlistRepository;
     @GetMapping("/wishlists")
-    public ResponseEntity<List<Wishlist>> getAllWishlists(@RequestParam(required = false) long id) {
+    public ResponseEntity<List<Wishlist>> getAllWishlists(@RequestParam(required = false) Long id) {
         try {
             List<Wishlist> wishlists = new ArrayList<>();
-            if (id < 0) wishlistRepository.findAll().forEach(wishlists::add);
-            else wishlistRepository.findByIdContaining(id).forEach(wishlists::add);
+            wishlistRepository.findAll().forEach(wishlists::add);
             return new ResponseEntity<>(wishlists, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -33,7 +31,7 @@ public class WishlistController {
 
     @GetMapping(value = "/wishlists/{wishlist_id}")
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<Wishlist> getWishlistById(@PathVariable(value = "wishlist_id") long id) {
+    public ResponseEntity<Wishlist> getWishlistById(@PathVariable(value = "wishlist_id") Long id) {
         Optional<Wishlist> wishlistData = wishlistRepository.findById(id);
         if (wishlistData.isPresent()) {
             return new ResponseEntity<>(wishlistData.get(), HttpStatus.OK);
@@ -56,7 +54,6 @@ public class WishlistController {
     public ResponseEntity<Wishlist> createWishlist(@RequestBody Wishlist wishlist) {
         try {
             Wishlist wishlist1 = new Wishlist();
-            wishlist1.setWishlist_id(wishlist.getWishlist_id());
             wishlist1.setUser(wishlist.getUser());
             Wishlist _wishlist = wishlistRepository.save(wishlist1);
             return new ResponseEntity<>(_wishlist, HttpStatus.CREATED);
@@ -66,15 +63,23 @@ public class WishlistController {
     }
 
     @PutMapping("/wishlists/{wishlist_id}")
-    public ResponseEntity<Wishlist> updateWishlist(@PathVariable("wishlist_id") long wishlist_id, @RequestBody Wishlist wishlist) {
+    public ResponseEntity<Wishlist> updateWishlist(@PathVariable("wishlist_id") Long wishlist_id, @RequestBody Wishlist wishlist) {
         Optional<Wishlist> wishlistData = wishlistRepository.findById(wishlist_id);
         if (wishlistData.isPresent()) {
             Wishlist _wishlist = wishlistData.get();
-            _wishlist.setWishlist_id(wishlist.getWishlist_id());
             _wishlist.setUser(wishlist.getUser());
             return new ResponseEntity<>(wishlistRepository.save(_wishlist), HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+    @DeleteMapping("/wishlists/{wishlist_id}")
+    public ResponseEntity<HttpStatus> deleteItem(@PathVariable(value = "wishlist_id") Long wishlist_id) {
+        try {
+            wishlistRepository.deleteById(wishlist_id);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 }
