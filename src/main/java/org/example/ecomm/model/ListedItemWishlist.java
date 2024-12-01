@@ -3,6 +3,7 @@ package org.example.ecomm.model;
 import jakarta.persistence.*;
 
 @Entity
+@Table(name="ListedItem_WishList")
 public class ListedItemWishlist {
 
     @EmbeddedId
@@ -15,7 +16,7 @@ public class ListedItemWishlist {
 
     @ManyToOne
     @MapsId("listedItemId")
-    @JoinColumn(name = "listedItem_id")
+    @JoinColumn(name = "item_id")
     private ListedItem listedItem;
 
     public ListedItemWishlistId getId() {

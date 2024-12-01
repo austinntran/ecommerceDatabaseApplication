@@ -14,6 +14,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import static java.util.Arrays.stream;
+
 @CrossOrigin
 @RestController
 @RequestMapping("/api")
@@ -40,11 +42,18 @@ public class ListedItemWishlistController {
     }
 
     @GetMapping("/listeditemwishlists/{wishlistId}/{listedItemId}")
-    public ResponseEntity<ListedItemWishlist> getWishlistById(@PathVariable("wishlistId") Long wishlistId, @PathVariable("listedItemId") Long listedItemId) {
+    public ResponseEntity<ListedItemWishlist> getWishlistByCustomId(@PathVariable("wishlistId") Long wishlistId, @PathVariable("listedItemId") Long listedItemId) {
         ListedItemWishlistId id = new ListedItemWishlistId(wishlistId, listedItemId);
         Optional<ListedItemWishlist> listedItemWishlistData = listedItemWishlistRepository.findById(id);
 
         return listedItemWishlistData.map(listedItemWishlist -> new ResponseEntity<>(listedItemWishlist, HttpStatus.OK)).orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
+    }
+
+    @GetMapping("/listeditemwishlists/{wishlistId}")
+    public ResponseEntity<List<ListedItemWishlist>> getWishlistByWishlist(@PathVariable("wishlistId") Long wishlistId) {
+        List<ListedItemWishlist> listedItemWishlistData = listedItemWishlistRepository.findAll();
+        List<ListedItemWishlist> filtered = listedItemWishlistData.stream().filter(l -> l.getWishlist().getWishlist_id() == wishlistId).toList();
+        return ResponseEntity.ok(filtered);
     }
 
     @DeleteMapping("/listeditemwishlists")
