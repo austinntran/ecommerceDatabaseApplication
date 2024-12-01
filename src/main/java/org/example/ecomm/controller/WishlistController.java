@@ -1,6 +1,5 @@
 package org.example.ecomm.controller;
 
-import org.example.ecomm.model.User;
 import org.example.ecomm.model.Wishlist;
 import org.example.ecomm.repository.WishlistRepository;
 import org.springframework.beans.factory.annotation.Autowired;
