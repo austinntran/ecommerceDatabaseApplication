@@ -91,4 +91,14 @@ public class CarController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
+
+    @DeleteMapping("/cars/{car_id}")
+    public ResponseEntity<HttpStatus> deleteItem(@PathVariable(value = "car_id") Long car_id) {
+        try {
+            carRepository.deleteById(car_id);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 }
