@@ -16,9 +16,6 @@ import org.example.ecomm.model.ListedItemWishlistId;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface ListedItemWishlistRepository extends JpaRepository<ListedItemWishlist, ListedItemWishlistId> {
-
-//    List<ListedItemWishlist> findByIdContaining(Long wishlistId, Long listedItemId);
-
     Optional<ListedItemWishlist> findByWishlist(Wishlist wishlist);
 }
 
