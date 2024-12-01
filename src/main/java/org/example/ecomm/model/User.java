@@ -1,5 +1,6 @@
 package org.example.ecomm.model;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.util.Date;
@@ -14,6 +15,7 @@ public class User {
     @Column(name = "passhash")
     private String passwordHash;
 
+    @JsonIgnore
     @Column(name = "EncryptedPasswordHash")
     private byte[] encryptedPasswordHash;
 
